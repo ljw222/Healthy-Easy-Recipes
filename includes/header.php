@@ -9,7 +9,8 @@
                 ['breakfast.php', 'Breakfast'],
                 ['lunch.php', 'Lunch'],
                 ['dinner.php', 'Dinner'],
-                ['snacks.php', 'Snacks & Desserts']
+                ['snacks.php', 'Snacks & Desserts'],
+                ['photo.php', 'Photo Gallery']
             ];
 
             foreach ($pages as $page){
