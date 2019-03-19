@@ -31,10 +31,10 @@ Your Name: [Lucy Wang]
 
 [Label all images. All labels must be visible in Markdown Preview.]
 From Project 1:
-![](sketch1.jpg)
 ![](all_recipes.jpg)
 ![](lunch_breakfast.jpg)
 ![](dinner_snacks.jpg)
+![](sketch1.jpg)
 ![](snacks_form.jpg)
 ![](home_w_form.jpg)
 
