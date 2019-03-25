@@ -75,7 +75,7 @@ include("includes/init.php");
     <p class = "name">Three Ingredient Banana Pancakes</p>
     <ul class = "description">
       <li>Who doesn't love pancakes?! These flourless banana pancakes are super delicious, and only THREE ingredients!</li>
-      <li>Total time: 25 minutes</li>
+      <li>Total time: 10 minutes</li>
       <li>Click <a href = "https://chocolatecoveredkatie.com/2016/01/11/flourless-pancakes-vegan-banana/" class = "recipe">HERE</a> for the recipe!</li>
     </ul>
   </div>

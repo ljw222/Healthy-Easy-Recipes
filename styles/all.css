@@ -238,8 +238,8 @@ body{
 .header_li{
     list-style-type: none;
     display: inline;
-    padding-right: 60px;
-    padding-left: 60px;
+    padding-right: 55px;
+    padding-left: 55px;
     padding-top: 18px;
     padding-bottom: 16px;
     border-right: 1px solid black;
@@ -329,4 +329,43 @@ hr{
 
 #pic_form{
     padding-bottom: 20px;
+}
+
+.form_tag{
+    display: block;
+    text-align: left;
+}
+
+ul{
+    list-style: none;
+}
+
+#pic_form li{
+    padding-bottom: 20px;
+}
+
+#pic_form .text_label{
+    padding-left: 30%;
+}
+
+#pic_form .form_tag{
+    padding-left: 40%;
+    font-size: 14px;
+}
+
+#pic_form button{
+    margin-left: 50%;
+}
+
+#login_form{
+    padding-bottom: 20px;
+}
+
+#login_form .text_label{
+    padding-bottom: 15px;
+    padding-left: 40%;
+}
+
+#login_form button{
+    margin-left: 55%;
 }
