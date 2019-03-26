@@ -9,6 +9,7 @@ $messages = array();
 // MAX_FILE_SIZE must be set to bytes
 // 1 MB = 1000000 bytes
 const MAX_FILE_SIZE = 1000000;
+$user = $username;
 
 // Users must be logged in to upload files!
 if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
@@ -20,6 +21,7 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
   //
   //need to filter !!!!!!!!
   $recipe_name = $_POST["recipe_name"];
+  $source = $_POST["source"];
 
   // TODO: If the upload was successful, record the upload in the database
   // and permanently store the uploaded file in the uploads directory.
@@ -71,6 +73,28 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
 
 
 
+      <?php
+        $records = exec_sql_query(
+          $db,
+          "SELECT * FROM images",
+          array())->fetchAll();
+
+
+          foreach($records as $record){
+              ?>
+            <div class = "pic_gallery">
+
+
+                <?php echo $record['file_name'];?>
+
+                <img src="uploads/photos/<?php echo $record['file_name'];?> alt="An image of <?php echo $record['recipe_name']; ?>>
+                <a href = <?php echo $record['source']; ?> class = "source">Source</a>
+            </div>
+            <?php
+          }
+
+
+        ?>
 
 
 
@@ -80,10 +104,10 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
             echo "<p><strong>" . htmlspecialchars($message) . "</strong></p>\n";
         }
         ?>
-        <form id="pic_form" method="post" action="photo.php">
+        <form id="pic_form" method="post" action="photo.php" enctype="multipart/form-data">
         <fieldset>
 
-            <legend>Welcome <?php echo $username; ?>! Did you make one of the HEALTHY & EASY recipes?? Submit a picture!</legend>
+            <legend>Welcome <?php echo $user; ?>! Did you make one of the HEALTHY & EASY recipes?? Submit a picture!</legend>
             <ul>
             <li>
                 <!-- MAX_FILE_SIZE must precede the file input field -->

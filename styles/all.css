@@ -374,3 +374,7 @@ ul{
 .logout{
     padding-top: 0px;
 }
+
+.pic_gallery{
+    display: inline-block;
+}

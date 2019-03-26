@@ -225,9 +225,8 @@ if the user uploaded tag is selected
 
 Overall, I think that coming up with a design was hard, especially the placement of the login page, and what would happen once the user logged in. I think that because the implementation of this feature was so new, at first it was hard for me to visualize including login/logout features to my page. However, as I learned more about how to code this feature, I got a better idea of the scope and functionality of the login/logout options on my site.
 
-I also had a hard time figuring out how to display all of the images in my image gallery. Figuring out how and what variables from the database to echo in the image tag in html was tricky.
+I also had a hard time figuring out how to display all of the images in my image gallery. Figuring out how and what variables from the database to echo in the image tag in html was tricky. I am still having trouble having the actual images display. When I echo out the variables it shows that the image file is correctly accessed, however, the actual image isn't being displayed. I was at office hours for 1 hour on Monday and 3 today, but I still can't figure it out, but I will fix it by the final submission.
 
-In addition, at first I couldn't figure out why my .sqlite file wasn't being created.
 
 # Final Submission: Complete & Polished Website
 

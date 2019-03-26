@@ -26,7 +26,7 @@ CREATE TABLE sessions (
 CREATE TABLE images (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     user_id INTEGER,
-    file_name TEXT NOT NULL UNIQUE,
+    file_name TEXT NOT NULL,
     file_ext TEXT NOT NULL,
     recipe_name TEXT NOT NULL,
     source TEXT
