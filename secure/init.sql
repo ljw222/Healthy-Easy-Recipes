@@ -13,7 +13,7 @@ CREATE TABLE users (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     username TEXT NOT NULL UNIQUE,
     password TEXT NOT NULL
-)
+);
 
 -- Sessions Table
 CREATE TABLE sessions (
@@ -28,41 +28,40 @@ CREATE TABLE images (
     user_id INTEGER,
     file_name TEXT NOT NULL UNIQUE,
     file_ext TEXT NOT NULL,
-    recipe_name TEXT NOT NULL UNIQUE,
+    recipe_name TEXT NOT NULL,
     source TEXT
-    -- should source be not null? aka how to cite sources when users upload them
-)
+);
 
 --Tags Table
 CREATE TABLE 'tags' (
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    tag TEXT NOT NULL UNIQUE
-)
+    'id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    'tag' TEXT NOT NULL UNIQUE
+);
 
 --Image tags Table
 CREATE TABLE 'image_tags' (
-    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    image_id TEXT NOT NULL UNIQUE,
-    tag_id TEXT NOT NULL UNIQUE
-)
+    'id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+    'image_id' TEXT NOT NULL,
+    'tag_id' TEXT NOT NULL
+);
 
 -- TODO: initial seed data
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (1, null,'1.jpg', 'jpg', 'Overnight Oats',"https://i1.wp.com/kristineskitchenblog.com/wp-content/uploads/2016/06/our-favorite-overnight-oats-1200-8231.jpg?resize=600%2C900&ssl=1");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (2, null, '2.jpg', 'jpg', 'Egg Muffins',"https://www.creativehealthyfamily.com/wp-content/uploads/2016/11/easy-breezy-super-healthy-breakfast-egg-muffins-2.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (3, null,'3.jpg', 'jpg', 'Chocolate Almond Butter Granola Bars',"https://www.iheartnaptime.net/wp-content/uploads/2016/01/IHeartNaptime_GranolaBars-1200x857.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (4, null,'4.jpg', 'jpg', 'Three Ingredient Banana Pancakes',"https://www.chocolatecoveredkatie.com/wp-content/uploads/The-Dr.-Oz-Show_A0D6/banana-pancake_thumb_3.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (5, null, '5.jpg', 'jpg', 'Turkey Ranch Wrap',"https://life-in-the-lofthouse.com/wp-content/uploads/2015/07/Turkey_Ranch_Wraps2-1024x718.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (6, null,'6.jpg', 'jpg', '16 Salad in a Jar Recipes',"https://cdn.tipjunkie.com/wp-content/uploads/cache/0c/43/0c4357b7c8f295b96a653f9ce4a42b46.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (7, null,'7.jpg', 'jpg', 'Thai Chicken Bowl',"https://sweetpeasandsaffron.com/wp-content/uploads/2015/11/Peanut-Lime-Chicken-Lunch-Bowls-4-600x1067.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (8, null,'8.jpg','jpg', 'Sheet Pan Roasted Sausage & Potatoes With Peppers',"https://joyfoodsunshine.com/wp-content/uploads/2017/03/Sheet-Pan-Roasted-Potatoes-Sausage-Peppers-recipe-gluten-free-paleo-3.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (9, null,'9.jpg', 'jpg', 'Margherita Flatbread Pizza',"https://i1.wp.com/letthebakingbegin.com/wp-content/uploads/2015/01/MargheritaFlatbreadPizzaCaprese_2.jpg?resize=600%2C901&ssl=1");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (10, null,'10.jpg', 'jpg', 'Vegetable Lo Mein',"https://pinchofyum.com/wp-content/uploads/Lo-Mein-1-2-600x900.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (11, null,'11.jpg', 'jpg', ' Lemon & Basil Baked Salmon',"https://www.evolvingtable.com/wp-content/uploads/2017/06/Lemon-Basil-Salmon.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (12, null,'12.jpg', 'jpg', 'No Bake Chocolate Chip Blondies',"https://www.laurafuentes.com/wp-content/uploads/2017/03/Healthy_Blondies_low_8.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (13, null,'13.jpg', 'jpg', 'Peanut Butter Enery Bites',"https://chefsavvy.com/wp-content/uploads/energy-protein-peanut-butter-flax-bites.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (14, null,'14.jpg', 'jpg', 'Strawberry Yogurt Bark',"https://www.hellowonderful.co/ckfinder/userfiles/images/3-strawberry-yogurt-bark.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (15, null,'15.jpg', 'jpg', 'Chocolate Banana Cookies',"https://tipbuzz.com/wp-content/uploads/cookies1.jpg");
-INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (16, null, '16.jpg', 'jpg', 'Banana Bread', "https://www.chocolatecoveredkatie.com/wp-content/uploads/The-Dr.-Oz-Show_A0D6/banana-pancake_thumb_3.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (1, NULL,'1.jpg', 'jpg', 'Overnight Oats',"https://i1.wp.com/kristineskitchenblog.com/wp-content/uploads/2016/06/our-favorite-overnight-oats-1200-8231.jpg?resize=600%2C900&ssl=1");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (2, NULL, '2.jpg', 'jpg', 'Egg Muffins',"https://www.creativehealthyfamily.com/wp-content/uploads/2016/11/easy-breezy-super-healthy-breakfast-egg-muffins-2.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (3, NULL,'3.jpg', 'jpg', 'Chocolate Almond Butter Granola Bars',"https://www.iheartnaptime.net/wp-content/uploads/2016/01/IHeartNaptime_GranolaBars-1200x857.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (4, NULL,'4.jpg', 'jpg', 'Three Ingredient Banana Pancakes',"https://www.chocolatecoveredkatie.com/wp-content/uploads/The-Dr.-Oz-Show_A0D6/banana-pancake_thumb_3.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (5, NULL, '5.jpg', 'jpg', 'Turkey Ranch Wrap',"https://life-in-the-lofthouse.com/wp-content/uploads/2015/07/Turkey_Ranch_Wraps2-1024x718.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (6, NULL,'6.jpg', 'jpg', '16 Salad in a Jar Recipes',"https://cdn.tipjunkie.com/wp-content/uploads/cache/0c/43/0c4357b7c8f295b96a653f9ce4a42b46.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (7, NULL,'7.jpg', 'jpg', 'Thai Chicken Bowl',"https://sweetpeasandsaffron.com/wp-content/uploads/2015/11/Peanut-Lime-Chicken-Lunch-Bowls-4-600x1067.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (8, NULL,'8.jpg','jpg', 'Sheet Pan Roasted Sausage & Potatoes With Peppers',"https://joyfoodsunshine.com/wp-content/uploads/2017/03/Sheet-Pan-Roasted-Potatoes-Sausage-Peppers-recipe-gluten-free-paleo-3.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (9, NULL,'9.jpg', 'jpg', 'Margherita Flatbread Pizza',"https://i1.wp.com/letthebakingbegin.com/wp-content/uploads/2015/01/MargheritaFlatbreadPizzaCaprese_2.jpg?resize=600%2C901&ssl=1");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (10, NULL,'10.jpg', 'jpg', 'Vegetable Lo Mein',"https://pinchofyum.com/wp-content/uploads/Lo-Mein-1-2-600x900.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (11, NULL,'11.jpg', 'jpg', 'Lemon & Basil Baked Salmon',"https://www.evolvingtable.com/wp-content/uploads/2017/06/Lemon-Basil-Salmon.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (12, NULL,'12.jpg', 'jpg', 'No Bake Chocolate Chip Blondies',"https://www.laurafuentes.com/wp-content/uploads/2017/03/Healthy_Blondies_low_8.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (13, NULL,'13.jpg', 'jpg', 'Peanut Butter Enery Bites',"https://chefsavvy.com/wp-content/uploads/energy-protein-peanut-butter-flax-bites.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (14, NULL,'14.jpg', 'jpg', 'Strawberry Yogurt Bark',"https://www.hellowonderful.co/ckfinder/userfiles/images/3-strawberry-yogurt-bark.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (15, NULL,'15.jpg', 'jpg', 'Chocolate Banana Cookies',"https://tipbuzz.com/wp-content/uploads/cookies1.jpg");
+INSERT INTO images (id, user_id, file_name, file_ext, recipe_name, source) VALUES (16, NULL, '16.jpg', 'jpg', 'Banana Bread', "https://www.chocolatecoveredkatie.com/wp-content/uploads/The-Dr.-Oz-Show_A0D6/banana-pancake_thumb_3.jpg");
 
 
 INSERT INTO `tags` (id,tag) VALUES (1, 'breakfast');

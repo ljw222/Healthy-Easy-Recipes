@@ -50,7 +50,7 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link href="styles/all.css" type="text/css" rel="stylesheet">
-  <title>Lunch</title>
+  <title>Photo Gallery</title>
 </head>
 
 <body>
@@ -69,39 +69,21 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
         <input class="submit_tags" type="submit" value="Sort" name="submit"/>
     </form>
 
-    <ul>
-        <?php
-        $records = exec_sql_query(
-          $db,
-          "SELECT * FROM images",
-          array(':user_id' => $current_user['id'])
-          )->fetchAll();
 
-        if (count($records) > 0) {
-          foreach($records as $record){
-              ?>
-            <div class = "pic_gallery">
-                <img src="documents/images/<?php echo $record['file_name']; ?> alt="An image of <?php echo $record['recipe_name']; ?>>
-                <a href = <?php echo $record['source']; ?> class = "source">Source</a>
-            </div>
-            <?php
-          }
 
-        } else {
-          echo '<p><strong>No files uploaded yet. Try uploading a file!</strong></p>';
-        }
-        ?>
-      </ul>
+
+
 
     <?php
-    if ( !is_user_logged_in()){
+    if ( is_user_logged_in()){
         foreach ($messages as $message) {
             echo "<p><strong>" . htmlspecialchars($message) . "</strong></p>\n";
         }
         ?>
         <form id="pic_form" method="post" action="photo.php">
         <fieldset>
-            <legend>Welcome<?php echo $username; ?>! Did you make one of the HEALTHY & EASY recipes?? Submit a picture!</legend>
+
+            <legend>Welcome <?php echo $username; ?>! Did you make one of the HEALTHY & EASY recipes?? Submit a picture!</legend>
             <ul>
             <li>
                 <!-- MAX_FILE_SIZE must precede the file input field -->
@@ -135,10 +117,6 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
         include("includes/login.php");
     }
     ?>
-
-
-
-
 
 
 

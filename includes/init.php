@@ -174,6 +174,9 @@ function log_out() {
     $current_user = NULL;
 }
 
+$db = open_or_init_sqlite_db('secure/site.sqlite', 'secure/init.sql');
+
+
 //check to see if user should be logged in, if the username and password is entered, try to login. If not, check if already logged in via a cookie
 if ( isset($_POST['login']) && isset($_POST['username']) && isset($_POST['password']) ) {
     $username = trim( $_POST['username'] );
@@ -187,4 +190,5 @@ if ( isset($_POST['login']) && isset($_POST['username']) && isset($_POST['passwo
 if ( isset($current_user) && ( isset($_GET['logout']) || isset($_POST['logout']) ) ) {
     log_out();
 }
+
 ?>

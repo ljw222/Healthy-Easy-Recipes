@@ -13,6 +13,13 @@
                 ['photo.php', 'Photo Gallery']
             ];
 
+            if ( is_user_logged_in() ) {
+              // Add a logout query string parameter
+              $logout_url = htmlspecialchars( $_SERVER['PHP_SELF'] ) . '?' . http_build_query( array( 'logout' => '' ) );
+
+              ?> <p class="logout"><?php echo '<li id="nav-last"><a href="' . $logout_url . '">Sign Out ' . htmlspecialchars($current_user['username']) . '</a></li>'; ?> </p> <?php
+            }
+
             foreach ($pages as $page){
                 $current_file = basename($_SERVER['PHP_SELF']);
                 ?> <li class = "header_li <?php if($current_file == $page[0]){ ?>  current_page"<?php ;} else{?>" <?php ;} ?>><a class = "header_a" href = <?php echo $page[0];?>>
@@ -20,4 +27,7 @@
             }
         ?>
         </ul>
+
+
+
     </nav>

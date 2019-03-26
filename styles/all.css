@@ -231,7 +231,7 @@ body{
 .header_ul{
     text-align: center;
     padding-inline-start: 0px;
-    padding: 15px;
+    padding-top: 10px;
     margin-top: 0px;
 }
 
@@ -318,6 +318,7 @@ hr{
     font-size: 18px;
     font-weight: normal;
     text-align: center;
+    padding-top: 5px;
 }
 
 #tag_sort p{
@@ -368,4 +369,8 @@ ul{
 
 #login_form button{
     margin-left: 55%;
+}
+
+.logout{
+    padding-top: 0px;
 }
