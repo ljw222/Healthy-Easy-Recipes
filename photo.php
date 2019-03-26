@@ -15,26 +15,30 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
 
   // TODO: filter input for the "box_file" and "description" parameters.
   // Hint: filtering input for files means checking if the upload was successful
-  $upload_info = $_FILES["box_file"];
-  $description = $_POST["description"];
+  $upload_info = $_FILES["pic_file"];
+  //
+  //
+  //need to filter !!!!!!!!
+  $recipe_name = $_POST["recipe_name"];
 
   // TODO: If the upload was successful, record the upload in the database
   // and permanently store the uploaded file in the uploads directory.
   if($upload_info['error'] == 0){
     $basename = basename($upload_info["name"]);
     $upload_ext = strtolower( pathinfo($basename, PATHINFO_EXTENSION) );
-    $sql = "INSERT INTO documents (user_id, file_name, file_ext, description) VALUES (:current_user, :basename, :upload_ext, :description);";
+    $sql = "INSERT INTO images (user_id, file_name, file_ext, recipe_name, source) VALUES (:current_user, :basename, :upload_ext, :recipe_name, :source);";
 
     $params = array(
-      ':current_user' => $current_user,
+      ':current_user' => $current_user["id"],
       ':basename' => $basename,
       ':upload_ext' => $upload_ext,
-      ':description' => $description
+      ':recipe_name' => $recipe_name,
+      ':source' => $source
     );
 
     $result = exec_sql_query($db, $sql, $params);
     $last_id = $db->lastInsertId("id");
-    move_uploaded_file( $_FILES["box_file"]["tmp_name"], "uploads/documents/$basename" );
+    move_uploaded_file( $_FILES["pic_file"]["tmp_name"], "uploads/images/$basename" );
   }
 
 }
@@ -65,15 +69,39 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
         <input class="submit_tags" type="submit" value="Sort" name="submit"/>
     </form>
 
+    <ul>
+        <?php
+        $records = exec_sql_query(
+          $db,
+          "SELECT * FROM images",
+          array(':user_id' => $current_user['id'])
+          )->fetchAll();
+
+        if (count($records) > 0) {
+          foreach($records as $record){
+              ?>
+            <div class = "pic_gallery">
+                <img src="documents/images/<?php echo $record['file_name']; ?> alt="An image of <?php echo $record['recipe_name']; ?>>
+                <a href = <?php echo $record['source']; ?> class = "source">Source</a>
+            </div>
+            <?php
+          }
+
+        } else {
+          echo '<p><strong>No files uploaded yet. Try uploading a file!</strong></p>';
+        }
+        ?>
+      </ul>
+
     <?php
-    if ( is_user_logged_in()){
+    if ( !is_user_logged_in()){
         foreach ($messages as $message) {
             echo "<p><strong>" . htmlspecialchars($message) . "</strong></p>\n";
         }
         ?>
         <form id="pic_form" method="post" action="photo.php">
         <fieldset>
-            <legend>Welcome <?php echo $username; ?>! Did you make one of the HEALTHY & EASY recipes?? Submit a picture!</legend>
+            <legend>Welcome<?php echo $username; ?>! Did you make one of the HEALTHY & EASY recipes?? Submit a picture!</legend>
             <ul>
             <li>
                 <!-- MAX_FILE_SIZE must precede the file input field -->
@@ -81,6 +109,10 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
 
                 <label for="pic_file" class="text_label">Upload File:</label>
                 <input id="pic_file" type="file" name="pic_file">
+            </li>
+            <li>
+                <label for="recipe_name" class="text_label">Recipe Name:</label>
+                <input id="recipe_name" type="text" name="recipe_name">
             </li>
             <li>
                 <label class="text_label">Tags:</label>
@@ -99,7 +131,6 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
         <?php
     } else {
         ?>
-        <p><strong>Sign in to submit a picture of your recipe!</strong></p>
         <?php
         include("includes/login.php");
     }

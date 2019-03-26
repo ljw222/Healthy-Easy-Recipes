@@ -29,17 +29,18 @@ CREATE TABLE images (
     file_name TEXT NOT NULL UNIQUE,
     file_ext TEXT NOT NULL,
     recipe_name TEXT NOT NULL UNIQUE,
-    source TEXT NOT NULL
+    source TEXT
+    -- should source be not null? aka how to cite sources when users upload them
 )
 
 --Tags Table
-CREATE TABLE "tags" (
+CREATE TABLE 'tags' (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     tag TEXT NOT NULL UNIQUE
 )
 
 --Image tags Table
-CREATE TABLE "image_tags" (
+CREATE TABLE 'image_tags' (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
     image_id TEXT NOT NULL UNIQUE,
     tag_id TEXT NOT NULL UNIQUE
