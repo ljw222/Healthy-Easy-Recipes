@@ -83,12 +83,12 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
           foreach($records as $record){
               ?>
             <div class = "pic_gallery">
-
-
-                <?php echo $record['file_name'];?>
-
-                <img src="uploads/photos/<?php echo $record['file_name'];?> alt="An image of <?php echo $record['recipe_name']; ?>>
+                <img
+                  src = <?php echo "uploads/photos/" . $record["id"] . "." . $record["file_ext"]; ?>
+                  alt="An image of <?php echo $record['recipe_name']; ?>";
+                >
                 <a href = <?php echo $record['source']; ?> class = "source">Source</a>
+
             </div>
             <?php
           }
