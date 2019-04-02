@@ -378,3 +378,7 @@ ul{
 .pic_gallery{
     display: inline-block;
 }
+
+.gallery{
+    text-align: center;
+}

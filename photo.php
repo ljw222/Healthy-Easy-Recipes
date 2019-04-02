@@ -40,7 +40,7 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
 
     $result = exec_sql_query($db, $sql, $params);
     $last_id = $db->lastInsertId("id");
-    move_uploaded_file( $_FILES["pic_file"]["tmp_name"], "uploads/images/$basename" );
+    move_uploaded_file( $_FILES["pic_file"]["tmp_name"], "uploads/images/$last_id.$upload_ext" );
   }
 
 }
@@ -79,22 +79,33 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
           "SELECT * FROM images",
           array())->fetchAll();
 
+          ?>
+          <div class = "gallery">
+
+          <?php
 
           foreach($records as $record){
               ?>
             <div class = "pic_gallery">
-                <img
-                  src = <?php echo "uploads/photos/" . $record["id"] . "." . $record["file_ext"]; ?>
-                  alt="An image of <?php echo $record['recipe_name']; ?>";
-                >
-                <a href = <?php echo $record['source']; ?> class = "source">Source</a>
-
+              <img
+                src = <?php echo "uploads/images/" . $record["id"] . "." . $record["file_ext"]; ?>
+                alt="An image of <?php echo $record['recipe_name']; ?>";
+              >
+              <?php
+                if(isset($record['source'])){
+                  ?>
+                  <a href = <?php echo $record['source']; ?> class = "source">Source</a>
+                  <?php
+                }
+              ?>
             </div>
             <?php
           }
 
+          ?>
+          </div>
 
-        ?>
+
 
 
 
@@ -107,7 +118,7 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
         <form id="pic_form" method="post" action="photo.php" enctype="multipart/form-data">
         <fieldset>
 
-            <legend>Welcome <?php echo $user; ?>! Did you make one of the HEALTHY & EASY recipes?? Submit a picture!</legend>
+            <legend>Welcome! Did you make one of the HEALTHY & EASY recipes?? Submit a picture!</legend>
             <ul>
             <li>
                 <!-- MAX_FILE_SIZE must precede the file input field -->
@@ -141,13 +152,6 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
         include("includes/login.php");
     }
     ?>
-
-
-
-
-
-
-
 
     <?php include("includes/footer.php"); ?>
 </body>
