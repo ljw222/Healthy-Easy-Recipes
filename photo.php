@@ -9,7 +9,6 @@ $messages = array();
 // MAX_FILE_SIZE must be set to bytes
 // 1 MB = 1000000 bytes
 const MAX_FILE_SIZE = 1000000;
-$user = $username;
 
 // Users must be logged in to upload files!
 if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
@@ -28,6 +27,7 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
   if($upload_info['error'] == 0){
     $basename = basename($upload_info["name"]);
     $upload_ext = strtolower( pathinfo($basename, PATHINFO_EXTENSION) );
+    //insert into images table
     $sql = "INSERT INTO images (user_id, file_name, file_ext, recipe_name, source) VALUES (:current_user, :basename, :upload_ext, :recipe_name, :source);";
 
     $params = array(
@@ -41,6 +41,9 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
     $result = exec_sql_query($db, $sql, $params);
     $last_id = $db->lastInsertId("id");
     move_uploaded_file( $_FILES["pic_file"]["tmp_name"], "uploads/images/$last_id.$upload_ext" );
+
+    //insert into image_tags table
+
   }
 
 }
@@ -60,57 +63,113 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
 
     <h1 class = "photo_h1">HEALTHY & EASY Recipes Photo Gallery!</h1>
 
-    <form id="tag_sort" method="post" action="photo.php">
+    <form id="tag_sort" method="post" action="photo.php" enctype="multipart/form-data">
         <label>Tags:</label>
         <input type="checkbox" name="breakfast" value="breakfast"><p>Breakfast</p>
         <input type="checkbox" name="lunch" value="lunch"><p>Lunch</p>
         <input type="checkbox" name="dinner" value="dinner"><p>Dinner</p>
         <input type="checkbox" name="snacks" value="snacks"><p>Snacks & Desserts</p>
-        <input type="checkbox" name="snacks" value="snacks"><p>User Uploaded</p>
-
+        <input type="checkbox" name="15" value="15"><p>15 Min or Less</p>
+        <input type="checkbox" name="user" value="user"><p>User Uploaded</p>
         <input class="submit_tags" type="submit" value="Sort" name="submit"/>
     </form>
 
-
-
-      <?php
-        $records = exec_sql_query(
-          $db,
-          "SELECT * FROM images",
-          array())->fetchAll();
-
-          ?>
-          <div class = "gallery">
-
-          <?php
-
-          foreach($records as $record){
-              ?>
-            <div class = "pic_gallery">
-              <img
-                src = <?php echo "uploads/images/" . $record["id"] . "." . $record["file_ext"]; ?>
-                alt="An image of <?php echo $record['recipe_name']; ?>";
-              >
-              <?php
-                if(isset($record['source'])){
-                  ?>
-                  <a href = <?php echo $record['source']; ?> class = "source">Source</a>
-                  <?php
-                }
-              ?>
-            </div>
-            <?php
-          }
-
-          ?>
-          </div>
-
-
-
-
-
+    <!-- tag submit -->
     <?php
-    if ( is_user_logged_in()){
+    if ( isset($_POST["submit"]) ){
+      $select = '';
+      $num_tags = FALSE;
+      if( isset($_POST["breakfast"]) ){
+        $num_tags = TRUE;
+        $select = "tag = 'breakfast'";
+      }
+      if( isset($_POST["lunch"]) ){
+        if($num_tags){
+          $select = $select . " OR tag = 'lunch'";
+        }
+        else{
+          $select = $select . "tag = 'lunch'";
+          $num_tags = TRUE;
+        }
+      }
+      if( isset($_POST["dinner"]) ){
+        if($num_tags){
+          $select = $select . " OR tag = 'dinner'";
+        }
+        else{
+          $select = $select . "tag = 'dinner'";
+          $num_tags = TRUE;
+        }
+      }
+      if( isset($_POST["snacks"]) ){
+        if($num_tags){
+          $select = $select . " OR tag = 'snacks'";
+        }
+        else{
+          $select = $select . "tag = 'snacks'";
+          $num_tags = TRUE;
+        }
+      }
+      if( isset($_POST["user_uploaded"]) ){
+        if($num_tags){
+          $select = $select . " OR tag = 'user_uploaded'";
+        }
+        else{
+          $select = $select . "tag = 'user_uploaded'";
+          $num_tags = TRUE;
+        }
+      }
+      if( isset($_POST["15"]) ){
+        if($num_tags){
+          $select = $select . " OR tag = '15mins'";
+        }
+        else{
+          $select = $select . "tag = '15mins'";
+          $num_tags = TRUE;
+        }
+      }
+
+      $records = exec_sql_query(
+        $db,
+        "SELECT * FROM images WHERE id IN (SELECT image_id FROM image_tags WHERE image_tags.tag_id IN (SELECT tags.id FROM tags WHERE $select))",
+      array())->fetchAll();
+
+    }
+    else{
+      $records = exec_sql_query(
+        $db,
+        "SELECT * FROM images",
+        array())->fetchAll();
+    }
+
+    ?>
+    <div class = "gallery">
+
+        <?php
+
+        foreach($records as $record){
+            ?>
+          <div class = "pic_gallery">
+            <img
+              src = <?php echo "uploads/images/" . $record["id"] . "." . $record["file_ext"]; ?>
+              alt="An image of <?php echo $record['recipe_name']; ?>";
+            >
+            <?php
+              if(isset($record['source'])){
+                ?>
+                <a href = <?php echo $record['source']; ?> class = "source">Source</a>
+                <?php
+              }
+            ?>
+          </div>
+          <?php
+        }
+
+        ?>
+        </div>
+        <?php
+
+    if ( is_user_logged_in() ){
         foreach ($messages as $message) {
             echo "<p><strong>" . htmlspecialchars($message) . "</strong></p>\n";
         }
