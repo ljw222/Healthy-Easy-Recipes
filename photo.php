@@ -47,6 +47,7 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
   }
 
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -150,10 +151,13 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
         foreach($records as $record){
             ?>
           <div class = "pic_gallery">
+          <a href= <?php echo "recipe.php?" . http_build_query( array( 'id' => $record['id'], 'source' => $record['source'], 'recipe_name' => $record['recipe_name'] ) );?>>
             <img
               src = <?php echo "uploads/images/" . $record["id"] . "." . $record["file_ext"]; ?>
               alt="An image of <?php echo $record['recipe_name']; ?>";
             >
+          </a>
+
             <?php
               if(isset($record['source'])){
                 ?>

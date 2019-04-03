@@ -382,3 +382,16 @@ ul{
 .gallery{
     text-align: center;
 }
+
+#content-wrap{
+    text-align: center;
+}
+
+figure{
+    margin-bottom: 0px;
+}
+
+.tags{
+    list-style-type:disc;
+    padding-left: 0;
+}
