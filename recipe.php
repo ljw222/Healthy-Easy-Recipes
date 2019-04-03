@@ -50,7 +50,7 @@ include("includes/init.php");
             <img src="uploads/images/<?php echo $id; ?>.jpg" alt="<?php echo htmlspecialchars($image['recipe_name']); ?>"/>
         </figure>
 
-        <a href = <?php echo $record['source']; ?> class = "source">Source</a>
+        <a href = <?php echo $source; ?> class = "source_tags">Source</a>
 
         <ul class = "tags">Tags
 
