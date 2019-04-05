@@ -44,6 +44,74 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
 
     //insert into image_tags table
 
+      //insert tag that is useruploaded
+    $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, 5);";
+    $params = array(
+      ':image_id' => $last_id
+    );
+    $result = exec_sql_query($db, $sql, $params);
+
+      //insert other tags
+    if ( isset($_POST["breakfast_tag"]) ){
+      $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, 1);";
+      $params = array(
+        ':image_id' => $last_id
+      );
+      $result = exec_sql_query($db, $sql, $params);
+    }
+    if ( isset($_POST["lunch_tag"]) ){
+      $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, 2);";
+      $params = array(
+        ':image_id' => $last_id
+      );
+      $result = exec_sql_query($db, $sql, $params);
+    }
+    if ( isset($_POST["dinner_tag"]) ){
+      $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, 3);";
+      $params = array(
+        ':image_id' => $last_id
+      );
+      $result = exec_sql_query($db, $sql, $params);
+    }
+    if ( isset($_POST["snacks_tag"]) ){
+      $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, 4);";
+      $params = array(
+        ':image_id' => $last_id
+      );
+      $result = exec_sql_query($db, $sql, $params);
+    }
+    if ( isset($_POST["15mins_tag"]) ){
+      $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, 6);";
+      $params = array(
+        ':image_id' => $last_id
+      );
+      $result = exec_sql_query($db, $sql, $params);
+    }
+    if ( isset($_POST["other_tag"]) && isset($_POST["other_check"])){
+      //insert into tags table
+      $sql_1 = "INSERT INTO tags (tag) VALUES (:image_tag);";
+
+      $image_tag = filter_input(INPUT_POST, 'other_tag', FILTER_SANITIZE_STRING);
+      $params = array(
+        ':image_tag' => $image_tag
+      );
+      //$result = exec_sql_query($db, $sql, $params);
+      echo "hi";
+
+      $last_id = $db->lastInsertId("id");
+      echo $last_id;
+      echo $last_img_id;
+
+      //insert into image_tags table
+      $sql_2 = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_tag, 12);";
+      echo $last_tag_id;
+      $params_2 = array(
+        ':image_id' => $last_img_id,
+        ':tag_id' => $last_tag_id
+      );
+
+      // $result = exec_sql_query($db, $sql_2, $params_2);
+    }
   }
 
 }
@@ -196,11 +264,12 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
             </li>
             <li>
                 <label class="text_label">Tags:</label>
-                <p class="form_tag"><input type="checkbox" value="breakfast">Breakfast</p>
-                <p class="form_tag"><input type="checkbox" value="lunch">Lunch</p>
-                <p class="form_tag"><input type="checkbox" value="dinner">Dinner</p>
-                <p class="form_tag"><input type="checkbox" value="snacks">Snacks & Desserts</p>
-                <p class="form_tag"><input type="checkbox" value="other">Other:  <input type="text"></p>
+                <p class="form_tag"><input type="checkbox" value="breakfast" name="breakfast_tag">Breakfast</p>
+                <p class="form_tag"><input type="checkbox" value="lunch" name="lunch_tag">Lunch</p>
+                <p class="form_tag"><input type="checkbox" value="dinner" name="dinner_tag">Dinner</p>
+                <p class="form_tag"><input type="checkbox" value="snacks" name="snacks_tag">Snacks & Desserts</p>
+                <p class="form_tag"><input type="checkbox" value="15mins" name="15mins_tag">15 Mins or Less</p>
+                <p class="form_tag"><input type="checkbox" value="other" name="other_check">Other:  <input type="text" name="other_tag"></p>
             </li>
             <li>
                 <button name="submit_upload" type="submit">Upload File</button>
