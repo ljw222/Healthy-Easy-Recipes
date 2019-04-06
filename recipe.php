@@ -25,6 +25,9 @@ include("includes/init.php");
         if($tag['tag'] == 'user_uploaded'){
             ?> <li> <?php echo "User Uploaded"; ?> </li> <?php
         }
+        else{
+            ?> <li> <?php echo htmlspecialchars($tag['tag']); ?> </li> <?php
+        }
     }
 ?>
 

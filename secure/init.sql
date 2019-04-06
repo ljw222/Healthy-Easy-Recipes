@@ -41,8 +41,8 @@ CREATE TABLE 'tags' (
 --Image tags Table
 CREATE TABLE 'image_tags' (
     'id' INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-    'image_id' TEXT NOT NULL,
-    'tag_id' TEXT NOT NULL
+    'image_id' INTEGER NOT NULL,
+    'tag_id' INTEGER NOT NULL
 );
 
 -- TODO: initial seed data

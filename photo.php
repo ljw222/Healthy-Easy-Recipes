@@ -87,30 +87,34 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
       );
       $result = exec_sql_query($db, $sql, $params);
     }
-    if ( isset($_POST["other_tag"]) && isset($_POST["other_check"])){
+    if ( isset($_POST["other_tag"]) && isset($_POST["other_check"]) ){
       //insert into tags table
+      $last_img_id = $last_id;
+      //echo $last_img_id;
+
       $sql_1 = "INSERT INTO tags (tag) VALUES (:image_tag);";
 
       $image_tag = filter_input(INPUT_POST, 'other_tag', FILTER_SANITIZE_STRING);
-      $params = array(
+      echo $image_tag;
+      $params_1 = array(
         ':image_tag' => $image_tag
       );
-      //$result = exec_sql_query($db, $sql, $params);
-      echo "hi";
+      $result = exec_sql_query($db, $sql_1, $params_1);
+      echo $last_img_id;;
 
       $last_id = $db->lastInsertId("id");
-      echo $last_id;
-      echo $last_img_id;
+      echo "tag id". $last_id;
+      // echo $last_img_id;
 
       //insert into image_tags table
-      $sql_2 = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_tag, 12);";
+      $sql_2 = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, :tag_id);";
       echo $last_tag_id;
       $params_2 = array(
         ':image_id' => $last_img_id,
-        ':tag_id' => $last_tag_id
+        ':tag_id' => $last_id
       );
 
-      // $result = exec_sql_query($db, $sql_2, $params_2);
+      $result = exec_sql_query($db, $sql_2, $params_2);
     }
   }
 
@@ -219,7 +223,7 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
         foreach($records as $record){
             ?>
           <div class = "pic_gallery">
-          <a href= <?php echo "recipe.php?" . http_build_query( array( 'id' => $record['id'], 'source' => $record['source'], 'recipe_name' => $record['recipe_name'] ) );?>>
+          <a href= <?php echo "recipe.php?" . http_build_query( array( 'id' => $record['id'], 'source' => $record['source'], 'recipe_name' => $record['recipe_name']) );?>>
             <img
               src = <?php echo "uploads/images/" . $record["id"] . "." . $record["file_ext"]; ?>
               alt="An image of <?php echo $record['recipe_name']; ?>";
