@@ -399,3 +399,6 @@ figure{
 .source_tags{
     text-align: center;
 }
+.delete_image{
+    display: inline;
+}

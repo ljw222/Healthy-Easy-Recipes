@@ -5,24 +5,25 @@ include("includes/init.php");
     $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
     $source = filter_input(INPUT_GET, 'source', FILTER_SANITIZE_STRING);
     $recipe_name = filter_input(INPUT_GET, 'recipe_name', FILTER_SANITIZE_STRING);
+    //$user_tag = filter_input(INPUT_GET, 'other_tag', FILTER_SANITIZE_STRING);
 
     function print_tags($tag){
         if($tag['tag'] == 'breakfast'){
             ?> <li> <?php echo "Breakfast"; ?> </li> <?php
         }
-        if($tag['tag'] == 'lunch'){
+        else if($tag['tag'] == 'lunch'){
             ?> <li> <?php echo "Lunch"; ?> </li> <?php
         }
-        if($tag['tag'] == 'dinner'){
+        else if($tag['tag'] == 'dinner'){
             ?> <li> <?php echo "Dinner"; ?> </li> <?php
         }
-        if($tag['tag'] == 'snacks'){
+        else if($tag['tag'] == 'snacks'){
             ?> <li> <?php echo "Snacks & Desserts"; ?> </li> <?php
         }
-        if($tag['tag'] == '15mins'){
+        else if($tag['tag'] == '15mins'){
             ?> <li> <?php echo "15 Min or Less"; ?> </li> <?php
         }
-        if($tag['tag'] == 'user_uploaded'){
+        else if($tag['tag'] == 'user_uploaded'){
             ?> <li> <?php echo "User Uploaded"; ?> </li> <?php
         }
         else{
@@ -53,7 +54,12 @@ include("includes/init.php");
             <img src="uploads/images/<?php echo $id; ?>.jpg" alt="<?php echo htmlspecialchars($image['recipe_name']); ?>"/>
         </figure>
 
-        <a href = <?php echo $source; ?> class = "source_tags">Source</a>
+        <?php if(isset($source)) {
+            ?>
+            <a href = <?php echo $source; ?> class = "source_tags">Source</a>
+            <?php
+        }
+        ?>
 
         <ul class = "tags">Tags
 

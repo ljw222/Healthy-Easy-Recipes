@@ -19,9 +19,8 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
   //
   //
   //need to filter !!!!!!!!
-  $recipe_name = $_POST["recipe_name"];
-  $source = $_POST["source"];
-
+  $recipe_name = filter_input(INPUT_POST, "recipe_name", FILTER_SANITIZE_STRING);
+  $source = filter_input(INPUT_POST, "source", FILTER_SANITIZE_STRING);
   // TODO: If the upload was successful, record the upload in the database
   // and permanently store the uploaded file in the uploads directory.
   if($upload_info['error'] == 0){
@@ -90,25 +89,19 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
     if ( isset($_POST["other_tag"]) && isset($_POST["other_check"]) ){
       //insert into tags table
       $last_img_id = $last_id;
-      //echo $last_img_id;
 
       $sql_1 = "INSERT INTO tags (tag) VALUES (:image_tag);";
 
       $image_tag = filter_input(INPUT_POST, 'other_tag', FILTER_SANITIZE_STRING);
-      echo $image_tag;
       $params_1 = array(
         ':image_tag' => $image_tag
       );
       $result = exec_sql_query($db, $sql_1, $params_1);
-      echo $last_img_id;;
 
       $last_id = $db->lastInsertId("id");
-      echo "tag id". $last_id;
-      // echo $last_img_id;
 
       //insert into image_tags table
       $sql_2 = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, :tag_id);";
-      echo $last_tag_id;
       $params_2 = array(
         ':image_id' => $last_img_id,
         ':tag_id' => $last_id
@@ -183,7 +176,7 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
           $num_tags = TRUE;
         }
       }
-      if( isset($_POST["user_uploaded"]) ){
+      if( isset($_POST["user"]) ){
         if($num_tags){
           $select = $select . " OR tag = 'user_uploaded'";
         }
@@ -225,17 +218,35 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
           <div class = "pic_gallery">
           <a href= <?php echo "recipe.php?" . http_build_query( array( 'id' => $record['id'], 'source' => $record['source'], 'recipe_name' => $record['recipe_name']) );?>>
             <img
-              src = <?php echo "uploads/images/" . $record["id"] . "." . $record["file_ext"]; ?>
-              alt="An image of <?php echo $record['recipe_name']; ?>";
+              src = <?php echo "uploads/images/" . htmlspecialchars($record["id"]) . "." . htmlspecialchars($record["file_ext"]); ?>
+              alt="An image of <?php echo htmlspecialchars($record['recipe_name']); ?>";
             >
           </a>
 
             <?php
-              if(isset($record['source'])){
+              if( isset($record['source']) ){
                 ?>
-                <a href = <?php echo $record['source']; ?> class = "source">Source</a>
+                <a href = <?php echo htmlspecialchars($record['source']); ?> class = "source">Source</a>
                 <?php
               }
+              if( isset($record["user_id"]) && ($current_user["id"] == $record["user_id"]) ){
+                $img_to_delete = $record['id'];
+                echo $img_to_delete;
+                ?>
+                <a href = "photo.php" class = "source" name="delete_image">Delete Image</a>
+                <?php
+                if( isset($_GET['delete_image']) ){
+                  $sql = "DELETE FROM images WHERE id = :img_to_delete;";
+
+                  $params = array(
+                    ':img_to_delete' => $img_to_delete
+                  );
+                  $result = exec_sql_query($db, $sql, $params);
+
+
+                }
+              }
+
             ?>
           </div>
           <?php
@@ -276,7 +287,7 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
                 <p class="form_tag"><input type="checkbox" value="other" name="other_check">Other:  <input type="text" name="other_tag"></p>
             </li>
             <li>
-                <button name="submit_upload" type="submit">Upload File</button>
+              <button name="submit_upload" type="submit">Upload File</button>
             </li>
             </ul>
         </fieldset>
