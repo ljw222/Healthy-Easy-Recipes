@@ -399,6 +399,28 @@ figure{
 .source_tags{
     text-align: center;
 }
+
 .delete_image{
     display: inline;
+}
+
+#tag_indiv_pic .text_label{
+    text-align: center;
+}
+
+#tag_indiv_pic .form_tag{
+    padding-left: 40%;
+    font-size: 14px;
+}
+
+#tag_indiv_pic button{
+    text-align: center;
+}
+
+#tag_indiv_pic{
+    padding-top: 10px;
+}
+
+#delete_form{
+    padding-top: 0px;
 }

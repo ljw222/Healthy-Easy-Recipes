@@ -10,6 +10,27 @@ $messages = array();
 // 1 MB = 1000000 bytes
 const MAX_FILE_SIZE = 1000000;
 
+if( isset($_POST['delete_image']) ){
+  //delete from images
+  $img_to_delete = $_GET['img_to_delete'];
+  $file_extension = $_GET['file_extension'];
+  $sql = "DELETE FROM images WHERE id = :img_to_delete;";
+  $params = array(
+    ':img_to_delete' => $img_to_delete
+  );
+  $result = exec_sql_query($db, $sql, $params);
+
+  //delete from tags
+  $tag_id_to_delete = "SELECT tag_id FROM image_tags WHERE image_id = $img_to_delete;";
+  $sql = "DELETE FROM tags WHERE id = :tag_id_to_delete;";
+  $params = array(
+    ':tag_id_to_delete' => $tag_id_to_delete
+  );
+  $result = exec_sql_query($db, $sql, $params);
+  //unlink from uploads/images folder
+  unlink('uploads/images/'. $img_to_delete . '.' . $file_extension);
+}
+
 // Users must be logged in to upload files!
 if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
 
@@ -43,7 +64,7 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
 
     //insert into image_tags table
 
-      //insert tag that is useruploaded
+    //insert tag that is useruploaded
     $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, 5);";
     $params = array(
       ':image_id' => $last_id
@@ -212,11 +233,36 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
     <div class = "gallery">
 
         <?php
+        if(isset($delete)){
+          //delete from images
+          $sql = "DELETE FROM images WHERE id = :img_to_delete;";
+          $params = array(
+            ':img_to_delete' => $img_to_delete
+          );
+          $result = exec_sql_query($db, $sql, $params);
+
+          //delete from tags
+          $tag_id_to_delete = "SELECT tag_id FROM image_tags WHERE image_id = $img_to_delete;";
+          $sql = "DELETE FROM tags WHERE id = :tag_id_to_delete;";
+          $params = array(
+            ':tag_id_to_delete' => $tag_id_to_delete
+          );
+          $result = exec_sql_query($db, $sql, $params);
+
+          //delete from image tags
+          $sql = "DELETE FROM image_tags WHERE image_id = :img_to_delete;";
+          $params = array(
+            ':img_to_delete' => $img_to_delete
+          );
+          $result = exec_sql_query($db, $sql, $params);
+          //unlink from uploads/images folder
+        }
 
         foreach($records as $record){
+
             ?>
           <div class = "pic_gallery">
-          <a href= <?php echo "recipe.php?" . http_build_query( array( 'id' => $record['id'], 'source' => $record['source'], 'recipe_name' => $record['recipe_name']) );?>>
+          <a href= <?php echo "recipe.php?" . http_build_query( array( 'id' => $record['id'], 'source' => $record['source'], 'recipe_name' => $record['recipe_name'], 'user_id' => $record["user_id"], 'current_user_id' => $current_user["id"], 'file_extension' => $record["file_ext"]) );?>>
             <img
               src = <?php echo "uploads/images/" . htmlspecialchars($record["id"]) . "." . htmlspecialchars($record["file_ext"]); ?>
               alt="An image of <?php echo htmlspecialchars($record['recipe_name']); ?>";
@@ -229,24 +275,6 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
                 <a href = <?php echo htmlspecialchars($record['source']); ?> class = "source">Source</a>
                 <?php
               }
-              if( isset($record["user_id"]) && ($current_user["id"] == $record["user_id"]) ){
-                $img_to_delete = $record['id'];
-                echo $img_to_delete;
-                ?>
-                <a href = "photo.php" class = "source" name="delete_image">Delete Image</a>
-                <?php
-                if( isset($_GET['delete_image']) ){
-                  $sql = "DELETE FROM images WHERE id = :img_to_delete;";
-
-                  $params = array(
-                    ':img_to_delete' => $img_to_delete
-                  );
-                  $result = exec_sql_query($db, $sql, $params);
-
-
-                }
-              }
-
             ?>
           </div>
           <?php
@@ -254,6 +282,40 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
 
         ?>
         </div>
+
+        <p class='all_tags'>
+        <?php
+        $tags = exec_sql_query(
+          $db,
+          "SELECT * FROM tags WHERE id > 1",
+        array())->fetchAll();
+        echo 'All Tags: Breakfast';
+        foreach($tags as $tag){
+          if($tag['tag'] == 'lunch'){
+            echo ', ' . 'Lunch';
+          }
+          else if($tag['tag'] == 'dinner'){
+            echo ', ' . 'Dinner';
+          }
+          else if($tag['tag'] == 'snacks'){
+            echo ', ' . 'Snacks & Desserts';
+          }
+          else if($tag['tag'] == '15mins'){
+            echo ', ' . '15 Min or Less';
+          }
+          else if($tag['tag'] == 'user_uploaded'){
+            echo ', ' . 'User Uploaded';
+          }
+          else{
+            echo ', ' . htmlspecialchars($tag['tag']);
+          }
+        }
+        ?>
+        </p>
+
+
+
+
         <?php
 
     if ( is_user_logged_in() ){
