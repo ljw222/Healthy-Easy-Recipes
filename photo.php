@@ -20,11 +20,10 @@ if( isset($_POST['delete_image']) ){
   );
   $result = exec_sql_query($db, $sql, $params);
 
-  //delete from tags
-  $tag_id_to_delete = "SELECT tag_id FROM image_tags WHERE image_id = $img_to_delete;";
-  $sql = "DELETE FROM tags WHERE id = :tag_id_to_delete;";
+  //delete from image tags
+  $sql = "DELETE FROM image_tags WHERE image_id = :img_to_delete;";
   $params = array(
-    ':tag_id_to_delete' => $tag_id_to_delete
+    ':img_to_delete' => $img_to_delete
   );
   $result = exec_sql_query($db, $sql, $params);
   //unlink from uploads/images folder
