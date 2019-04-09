@@ -174,7 +174,7 @@ function log_out() {
     $current_user = NULL;
 }
 
-$db = open_or_init_sqlite_db('secure/site.sqlite', 'secure/init.sql');
+$db = open_or_init_sqlite_db('secure/gallery.sqlite', 'secure/init.sql');
 
 
 //check to see if user should be logged in, if the username and password is entered, try to login. If not, check if already logged in via a cookie

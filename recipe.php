@@ -102,15 +102,27 @@ function print_tags_2($tag_name){
         }
         ?>
 
-        <ul class = "tags">Tags
+        <?php
+        if( isset($user_id) && ($current_user_id == $user_id ) ){
+            $img_to_delete = $id;
+            ?>
+            <form id="delete_form" method="post" action= <?php echo "photo.php?". http_build_query( array( 'img_to_delete' => $img_to_delete, 'file_extension' => $file_extension ) );?> enctype="multipart/form-data">
+                <button name="delete_image" type="submit">Delete Image</button>
+            </form>
+            <?php
+          }
+        ?>
 
+        <p>Tags</p>
+
+        <ul class = "tags">
             <?php
                 $tags = exec_sql_query(
                     $db,
                     "SELECT * FROM tags",
                     array())->fetchAll();
                     foreach($tags as $tag){
-                      if ( isset($_POST[$tag[tag] . "_tag"]) && !isset($_POST["other_check"]) ){
+                      if ( isset($_POST[$tag[tag] . "_tag"])){
                         $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, :tag_id);";
                         $params = array(
                           ':image_id' => $id,
@@ -118,6 +130,7 @@ function print_tags_2($tag_name){
                         );
                         $result = exec_sql_query($db, $sql, $params);
                       }
+                    }
 
                       if ( isset($_POST["other_tag"]) && isset($_POST["other_check"]) ){
                         //insert into tags table
@@ -141,7 +154,7 @@ function print_tags_2($tag_name){
                         );
 
                         $result = exec_sql_query($db, $sql_2, $params_2);
-                      }
+
 
                     }
                 //get tags
@@ -184,16 +197,7 @@ function print_tags_2($tag_name){
 
         </ul>
 
-        <?php
-        if( isset($user_id) && ($current_user_id == $user_id ) ){
-            $img_to_delete = $id;
-            ?>
-            <form id="delete_form" method="post" action= <?php echo "recipe.php?". http_build_query( array( 'id' => $id, 'source' => $source, 'recipe_name' => $recipe_name, 'file_extension' => $file_extension, 'user_id' => $user_id, 'current_user_id' => $current_user_id ) );?> enctype="multipart/form-data">
-                <button name="delete_image" type="submit">Delete Image</button>
-            </form>
-            <?php
-          }
-        ?>
+
 
         <form id="tag_indiv_pic" method="post" action=<?php echo "recipe.php?" . http_build_query( array( 'id' => $id, 'source' => $source, 'recipe_name' => $recipe_name, 'file_extension' => $file_extension, 'user_id' => $user_id, 'current_user_id' => $current_user_id ) );?> enctype="multipart/form-data">
         <fieldset>
@@ -214,19 +218,6 @@ function print_tags_2($tag_name){
                 }
               ?>
               <p class="form_tag"><input type="checkbox" value="other" name="other_check">Other:  <input type="text" name="other_tag"></p>
-
-
-
-
-
-
-                <!-- <label class="text_label">Tags:</label>
-                <p class="form_tag"><input type="checkbox" value="breakfast" name="breakfast_tag">Breakfast</p>
-                <p class="form_tag"><input type="checkbox" value="lunch" name="lunch_tag">Lunch</p>
-                <p class="form_tag"><input type="checkbox" value="dinner" name="dinner_tag">Dinner</p>
-                <p class="form_tag"><input type="checkbox" value="snacks" name="snacks_tag">Snacks & Desserts</p>
-                <p class="form_tag"><input type="checkbox" value="15mins" name="15mins_tag">15 Mins or Less</p>
-                <p class="form_tag"><input type="checkbox" value="other" name="other_check">Other:  <input type="text" name="other_tag"></p> -->
             </li>
             <li>
               <button name="submit_tag" type="submit">Submit</button>

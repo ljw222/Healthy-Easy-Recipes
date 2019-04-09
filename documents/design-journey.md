@@ -233,3 +233,5 @@ I also had a hard time figuring out how to display all of the images in my image
 ## Reflection
 
 [Take this time to reflect on what you learned during this assignment. How have you improved since starting this class? 2-4 sentences]
+
+I think that this assignment taught me a lot about debugging. This was also the assignment where all of the different things that we have been learning so far clicked for me, and I was finally able to have a better understanding about how all the different functionalities (sql, php, http_build_query) worked together. I learned the importance of echoing variables on the page to debug so that you can have a better understanding about what isn't working and why exactly it isn't working.

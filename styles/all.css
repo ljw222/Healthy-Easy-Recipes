@@ -133,6 +133,11 @@ img {
     margin-bottom: 15px;
 }
 
+.logout{
+    text-align: center;
+    padding-left: 47%;
+}
+
 div{
     padding-top: 10px;
     padding-bottom: 10px;

@@ -21,6 +21,6 @@
         <li>
           <button name="login" type="submit">Sign In</button>
         </li>
-    </legend>
+      </ul>
   </fieldset>
 </form>

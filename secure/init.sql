@@ -70,6 +70,7 @@ INSERT INTO `tags` (id,tag) VALUES (3, 'dinner');
 INSERT INTO `tags` (id,tag) VALUES (4, 'snacks');
 INSERT INTO `tags` (id,tag) VALUES (5, 'user_uploaded');
 INSERT INTO 'tags' (id,tag) VALUES (6, '15mins');
+INSERT INTO 'tags' (id,tag) VALUES (7, 'Brunch');
 
 INSERT INTO `image_tags` (id,image_id,tag_id) VALUES (1, 1, 1);
 INSERT INTO `image_tags` (id,image_id,tag_id) VALUES (2, 1, 6);
@@ -94,6 +95,7 @@ INSERT INTO `image_tags` (id,image_id,tag_id) VALUES (20, 14, 4);
 INSERT INTO `image_tags` (id,image_id,tag_id) VALUES (21, 14, 6);
 INSERT INTO `image_tags` (id,image_id,tag_id) VALUES (22, 15, 4);
 INSERT INTO `image_tags` (id,image_id,tag_id) VALUES (23, 16, 4);
+INSERT INTO `image_tags` (id,image_id,tag_id) VALUES (24, 4, 7);
 
 
 -- TODO: FOR HASHED PASSWORDS, LEAVE A COMMENT WITH THE PLAIN TEXT PASSWORD!
