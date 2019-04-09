@@ -2,6 +2,31 @@
 // DO NOT REMOVE!
 include("includes/init.php");
 // DO NOT REMOVE!
+function print_tags_2($tag_name){
+    if($tag_name == 'breakfast'){
+      echo 'Breakfast';
+    }
+    else if($tag_name == 'lunch'){
+      echo 'Lunch';
+    }
+    else if($tag_name == 'dinner'){
+      echo 'Dinner';
+    }
+    else if($tag_name == 'snacks'){
+      echo 'Snacks & Desserts';
+    }
+    else if($tag_name == '15mins'){
+      echo '15 Mins or Less';
+    }
+    else if($tag_name == 'user_uploaded'){
+      echo 'User Uploaded';
+    }
+    else{
+      echo htmlspecialchars($tag_name);
+    }
+
+  }
+
     $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
     $user_id = filter_input(INPUT_GET, 'user_id', FILTER_VALIDATE_INT);
     $current_user_id = filter_input(INPUT_GET, 'current_user_id', FILTER_VALIDATE_INT);
@@ -46,70 +71,6 @@ include("includes/init.php");
 
     }
 
-    if( isset($_POST["submit_tag"]) ){
-        //insert into image_tags table
-
-        //insert other tags
-        if ( isset($_POST["breakfast_tag"]) ){
-            $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, 1);";
-            $params = array(
-                ':image_id' => $last_id
-            );
-            $result = exec_sql_query($db, $sql, $params);
-        }
-        if ( isset($_POST["lunch_tag"]) ){
-            $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, 2);";
-            $params = array(
-                ':image_id' => $last_id
-            );
-            $result = exec_sql_query($db, $sql, $params);
-        }
-        if ( isset($_POST["dinner_tag"]) ){
-            $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, 3);";
-            $params = array(
-                ':image_id' => $last_id
-            );
-            $result = exec_sql_query($db, $sql, $params);
-        }
-        if ( isset($_POST["snacks_tag"]) ){
-            $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, 4);";
-            $params = array(
-                ':image_id' => $last_id
-            );
-            $result = exec_sql_query($db, $sql, $params);
-        }
-        if ( isset($_POST["15mins_tag"]) ){
-            $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, 6);";
-            $params = array(
-                ':image_id' => $last_id
-            );
-            $result = exec_sql_query($db, $sql, $params);
-        }
-        if ( isset($_POST["other_tag"]) && isset($_POST["other_check"]) ){
-            //insert into tags table
-            $last_img_id = $last_id;
-
-            $sql_1 = "INSERT INTO tags (tag) VALUES (:image_tag);";
-
-            $image_tag = filter_input(INPUT_POST, 'other_tag', FILTER_SANITIZE_STRING);
-            $params_1 = array(
-                ':image_tag' => $image_tag
-            );
-            $result = exec_sql_query($db, $sql_1, $params_1);
-
-            $last_id = $db->lastInsertId("id");
-
-            //insert into image_tags table
-            $sql_2 = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, :tag_id);";
-            $params_2 = array(
-                ':image_id' => $last_img_id,
-                ':tag_id' => $last_id
-            );
-
-            $result = exec_sql_query($db, $sql_2, $params_2);
-        }
-    }
-
 ?>
 
 <!DOCTYPE html>
@@ -144,6 +105,45 @@ include("includes/init.php");
         <ul class = "tags">Tags
 
             <?php
+                $tags = exec_sql_query(
+                    $db,
+                    "SELECT * FROM tags",
+                    array())->fetchAll();
+                    foreach($tags as $tag){
+                      if ( isset($_POST[$tag[tag] . "_tag"]) && !isset($_POST["other_check"]) ){
+                        $sql = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, :tag_id);";
+                        $params = array(
+                          ':image_id' => $id,
+                          'tag_id' => $tag['id']
+                        );
+                        $result = exec_sql_query($db, $sql, $params);
+                      }
+
+                      if ( isset($_POST["other_tag"]) && isset($_POST["other_check"]) ){
+                        //insert into tags table
+                        $last_img_id = $id;
+
+                        $sql_1 = "INSERT INTO tags (tag) VALUES (:image_tag);";
+
+                        $image_tag = filter_input(INPUT_POST, 'other_tag', FILTER_SANITIZE_STRING);
+                        $params_1 = array(
+                          ':image_tag' => $image_tag
+                        );
+                        $result = exec_sql_query($db, $sql_1, $params_1);
+
+                        $last_id = $db->lastInsertId("id");
+
+                        //insert into image_tags table
+                        $sql_2 = "INSERT INTO image_tags (image_id,tag_id) VALUES (:image_id, :tag_id);";
+                        $params_2 = array(
+                          ':image_id' => $last_img_id,
+                          ':tag_id' => $last_id
+                        );
+
+                        $result = exec_sql_query($db, $sql_2, $params_2);
+                      }
+
+                    }
                 //get tags
                 $sql = "SELECT tag FROM tags WHERE id IN (SELECT tag_id FROM image_tags WHERE image_id = :image_id);";
                 $params = array(
@@ -188,26 +188,45 @@ include("includes/init.php");
         if( isset($user_id) && ($current_user_id == $user_id ) ){
             $img_to_delete = $id;
             ?>
-            <form id="delete_form" method="post" action= <?php echo "photo.php?". http_build_query( array( 'img_to_delete' => $img_to_delete, 'file_extension' => $file_extension) );?> enctype="multipart/form-data">
+            <form id="delete_form" method="post" action= <?php echo "recipe.php?". http_build_query( array( 'id' => $id, 'source' => $source, 'recipe_name' => $recipe_name, 'file_extension' => $file_extension, 'user_id' => $user_id, 'current_user_id' => $current_user_id ) );?> enctype="multipart/form-data">
                 <button name="delete_image" type="submit">Delete Image</button>
             </form>
             <?php
           }
         ?>
 
-        <form id="tag_indiv_pic" method="post" action=<?php echo "recipe.php?" . http_build_query( array( 'id' => $id, 'source' => $source, 'recipe_name' => $recipe_name, 'user_id' => $user_id, 'current_user_id' => $current_user_id ) );?> enctype="multipart/form-data">
+        <form id="tag_indiv_pic" method="post" action=<?php echo "recipe.php?" . http_build_query( array( 'id' => $id, 'source' => $source, 'recipe_name' => $recipe_name, 'file_extension' => $file_extension, 'user_id' => $user_id, 'current_user_id' => $current_user_id ) );?> enctype="multipart/form-data">
         <fieldset>
 
-            <legend>Add a tag to this image!</legend>
+            <legend>Add a new tag to this image!</legend>
             <ul>
             <li>
-                <label class="text_label">Tags:</label>
+                <?php
+                $tags = exec_sql_query(
+                  $db,
+                  "SELECT tag FROM tags",
+                  array())->fetchAll();
+              ?>
+              <label class="text_label">Tags:</label>
+              <?php
+                foreach($tags as $tag){
+                  ?><p class="form_tag"><input type="checkbox" value= <?php echo $tag[0];?> name=<?php echo $tag[0] . "_tag";?>><?php print_tags_2($tag[0]); ?></p><?php
+                }
+              ?>
+              <p class="form_tag"><input type="checkbox" value="other" name="other_check">Other:  <input type="text" name="other_tag"></p>
+
+
+
+
+
+
+                <!-- <label class="text_label">Tags:</label>
                 <p class="form_tag"><input type="checkbox" value="breakfast" name="breakfast_tag">Breakfast</p>
                 <p class="form_tag"><input type="checkbox" value="lunch" name="lunch_tag">Lunch</p>
                 <p class="form_tag"><input type="checkbox" value="dinner" name="dinner_tag">Dinner</p>
                 <p class="form_tag"><input type="checkbox" value="snacks" name="snacks_tag">Snacks & Desserts</p>
                 <p class="form_tag"><input type="checkbox" value="15mins" name="15mins_tag">15 Mins or Less</p>
-                <p class="form_tag"><input type="checkbox" value="other" name="other_check">Other:  <input type="text" name="other_tag"></p>
+                <p class="form_tag"><input type="checkbox" value="other" name="other_check">Other:  <input type="text" name="other_tag"></p> -->
             </li>
             <li>
               <button name="submit_tag" type="submit">Submit</button>
