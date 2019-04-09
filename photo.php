@@ -26,6 +26,7 @@ if( isset($_POST['delete_image']) ){
     ':img_to_delete' => $img_to_delete
   );
   $result = exec_sql_query($db, $sql, $params);
+
   //unlink from uploads/images folder
   unlink('uploads/images/'. $img_to_delete . '.' . $file_extension);
 }
@@ -232,30 +233,30 @@ if ( isset($_POST["submit_upload"]) && is_user_logged_in() ) {
     <div class = "gallery">
 
         <?php
-        if(isset($delete)){
-          //delete from images
-          $sql = "DELETE FROM images WHERE id = :img_to_delete;";
-          $params = array(
-            ':img_to_delete' => $img_to_delete
-          );
-          $result = exec_sql_query($db, $sql, $params);
+        // if(isset($delete)){
+        //   //delete from images
+        //   $sql = "DELETE FROM images WHERE id = :img_to_delete;";
+        //   $params = array(
+        //     ':img_to_delete' => $img_to_delete
+        //   );
+        //   $result = exec_sql_query($db, $sql, $params);
 
-          //delete from tags
-          $tag_id_to_delete = "SELECT tag_id FROM image_tags WHERE image_id = $img_to_delete;";
-          $sql = "DELETE FROM tags WHERE id = :tag_id_to_delete;";
-          $params = array(
-            ':tag_id_to_delete' => $tag_id_to_delete
-          );
-          $result = exec_sql_query($db, $sql, $params);
+        //   //delete from tags
+        //   $tag_id_to_delete = "SELECT tag_id FROM image_tags WHERE image_id = $img_to_delete;";
+        //   $sql = "DELETE FROM tags WHERE id = :tag_id_to_delete;";
+        //   $params = array(
+        //     ':tag_id_to_delete' => $tag_id_to_delete
+        //   );
+        //   $result = exec_sql_query($db, $sql, $params);
 
-          //delete from image tags
-          $sql = "DELETE FROM image_tags WHERE image_id = :img_to_delete;";
-          $params = array(
-            ':img_to_delete' => $img_to_delete
-          );
-          $result = exec_sql_query($db, $sql, $params);
-          //unlink from uploads/images folder
-        }
+        //   //delete from image tags
+        //   $sql = "DELETE FROM image_tags WHERE image_id = :img_to_delete;";
+        //   $params = array(
+        //     ':img_to_delete' => $img_to_delete
+        //   );
+        //   $result = exec_sql_query($db, $sql, $params);
+        //   //unlink from uploads/images folder
+        // }
 
         foreach($records as $record){
 

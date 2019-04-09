@@ -424,3 +424,7 @@ figure{
 #delete_form{
     padding-top: 0px;
 }
+
+.delete_tag{
+    padding-top: 0;
+}

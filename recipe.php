@@ -9,6 +9,18 @@ include("includes/init.php");
     $recipe_name = filter_input(INPUT_GET, 'recipe_name', FILTER_SANITIZE_STRING);
     $file_extension = filter_input(INPUT_GET, 'file_extension', FILTER_SANITIZE_STRING);
 
+
+    if( isset($_POST['delete_tag']) ) {
+        $img_to_delete = $_GET['img_to_delete'];
+        $tag_to_delete = $_GET['tag_to_delete'][0];
+        $sql = "DELETE FROM image_tags WHERE tag_id = :tag_to_delete AND image_id = :img_to_delete ;";
+        $params = array(
+            ':img_to_delete' => $img_to_delete,
+            ':tag_to_delete' => $tag_to_delete
+        );
+        $result = exec_sql_query($db, $sql, $params);
+    }
+
     function print_tags($tag){
         if($tag['tag'] == 'breakfast'){
             ?> <li> <?php echo "Breakfast"; ?> </li> <?php
@@ -31,6 +43,7 @@ include("includes/init.php");
         else{
             ?> <li> <?php echo htmlspecialchars($tag['tag']); ?> </li> <?php
         }
+
     }
 
     if( isset($_POST["submit_tag"]) ){
@@ -143,6 +156,27 @@ include("includes/init.php");
                     $tags = $result->fetchAll();
                     foreach($tags as $tag){
                         print_tags($tag);
+
+                        if( isset($current_user_id) && $current_user_id == $user_id)
+                        {
+                            $tag1= $tag[0];
+
+                            $sql = "SELECT id FROM tags WHERE tag = :tag1;";
+                            $params = array(
+                                ':tag1' => $tag1
+                            );
+                            $result = exec_sql_query($db, $sql, $params);
+
+                            $to_delete = $result->fetchAll();
+                            $tag_to_delete = $to_delete[0];
+                            ?>
+
+
+                            <form class="delete_tag" method="post" action= <?php echo "recipe.php?". http_build_query( array( 'tag_to_delete' => $tag_to_delete, 'img_to_delete' => $id, 'id' => $id, 'user_id' => $user_id, 'current_user_id' => $current_user_id, 'source' => $source, 'recipe_name' => $recipe_name, 'file_extension' => $file_extension) );?> enctype="multipart/form-data">
+                                <button name="delete_tag" type="submit">Delete Tag</button>
+                            </form>
+                            <?php
+                        }
                     }
                 }
 
@@ -154,11 +188,8 @@ include("includes/init.php");
         if( isset($user_id) && ($current_user_id == $user_id ) ){
             $img_to_delete = $id;
             ?>
-            <form id="delete_form" method="post" action= <?php echo "photo.php?". http_build_query( array( 'img_to_delete' => $img_to_delete, 'file_extension' => $file_extension ) );?> enctype="multipart/form-data">
-
-            <button name="delete_image" type="submit">Delete</button>
-
-
+            <form id="delete_form" method="post" action= <?php echo "photo.php?". http_build_query( array( 'img_to_delete' => $img_to_delete, 'file_extension' => $file_extension) );?> enctype="multipart/form-data">
+                <button name="delete_image" type="submit">Delete Image</button>
             </form>
             <?php
           }
@@ -182,6 +213,7 @@ include("includes/init.php");
               <button name="submit_tag" type="submit">Submit</button>
             </li>
             </ul>
+
         </fieldset>
         </form>
 
