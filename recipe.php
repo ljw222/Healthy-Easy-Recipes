@@ -97,7 +97,7 @@ function print_tags_2($tag_name){
 
         <?php if(isset($source)) {
             ?>
-            <a href = <?php echo $source; ?> class = "source_tags">Source</a>
+            <a href = "<?php echo $source; ?>" class = "source_tags">Source</a>
             <?php
         }
         ?>
@@ -106,7 +106,7 @@ function print_tags_2($tag_name){
         if( isset($user_id) && ($current_user_id == $user_id ) ){
             $img_to_delete = $id;
             ?>
-            <form id="delete_form" method="post" action= <?php echo "photo.php?". http_build_query( array( 'img_to_delete' => $img_to_delete, 'file_extension' => $file_extension ) );?> enctype="multipart/form-data">
+            <form id="delete_form" method="post" action= "<?php echo "photo.php?". http_build_query( array( 'img_to_delete' => $img_to_delete, 'file_extension' => $file_extension ) );?>" enctype="multipart/form-data">
                 <button name="delete_image" type="submit">Delete Image</button>
             </form>
             <?php
@@ -185,7 +185,7 @@ function print_tags_2($tag_name){
                             ?>
 
 
-                            <form class="delete_tag" method="post" action= <?php echo "recipe.php?". http_build_query( array( 'tag_to_delete' => $tag_to_delete, 'img_to_delete' => $id, 'id' => $id, 'user_id' => $user_id, 'current_user_id' => $current_user_id, 'source' => $source, 'recipe_name' => $recipe_name, 'file_extension' => $file_extension) );?> enctype="multipart/form-data">
+                            <form class="delete_tag" method="post" action= "<?php echo "recipe.php?". http_build_query( array( 'tag_to_delete' => $tag_to_delete, 'img_to_delete' => $id, 'id' => $id, 'user_id' => $user_id, 'current_user_id' => $current_user_id, 'source' => $source, 'recipe_name' => $recipe_name, 'file_extension' => $file_extension) );?>" enctype="multipart/form-data">
                                 <button name="delete_tag" type="submit">Delete Tag</button>
                             </form>
                             <?php
@@ -199,7 +199,7 @@ function print_tags_2($tag_name){
 
 
 
-        <form id="tag_indiv_pic" method="post" action=<?php echo "recipe.php?" . http_build_query( array( 'id' => $id, 'source' => $source, 'recipe_name' => $recipe_name, 'file_extension' => $file_extension, 'user_id' => $user_id, 'current_user_id' => $current_user_id ) );?> enctype="multipart/form-data">
+        <form id="tag_indiv_pic" method="post" action="<?php echo "recipe.php?" . http_build_query( array( 'id' => $id, 'source' => $source, 'recipe_name' => $recipe_name, 'file_extension' => $file_extension, 'user_id' => $user_id, 'current_user_id' => $current_user_id ) );?>" enctype="multipart/form-data">
         <fieldset>
 
             <legend>Add a new tag to this image!</legend>

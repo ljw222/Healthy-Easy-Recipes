@@ -190,7 +190,7 @@ function print_tags($tag_name){
         foreach($records as $record){
           ?>
           <div class = "pic_gallery">
-          <a href= <?php echo "recipe.php?" . http_build_query( array( 'id' => $record['id'], 'source' => $record['source'], 'recipe_name' => $record['recipe_name'], 'user_id' => $record["user_id"], 'current_user_id' => $current_user["id"], 'file_extension' => $record["file_ext"]) ) ;?>>
+          <a href= "<?php echo "recipe.php?" . http_build_query( array( 'id' => $record['id'], 'source' => $record['source'], 'recipe_name' => $record['recipe_name'], 'user_id' => $record["user_id"], 'current_user_id' => $current_user["id"], 'file_extension' => $record["file_ext"]) ) ;?>">
             <img
               src = <?php echo "uploads/images/" . htmlspecialchars($record["id"]) . "." . htmlspecialchars($record["file_ext"]); ?>
               alt="An image of <?php echo htmlspecialchars($record['recipe_name']); ?>"
@@ -200,7 +200,7 @@ function print_tags($tag_name){
             <?php
               if( isset($record['source']) ){
                 ?>
-                <a href = <?php echo htmlspecialchars($record['source']); ?> class = "source">Source</a>
+                <a href = "<?php echo htmlspecialchars($record['source']); ?>" class = "source">Source</a>
                 <?php
               }
             ?>
