@@ -1,13 +1,7 @@
-# Project 3
+# Healthy&Easy Recipes
 
-See the course website for Project 3's requirements: [Project 3](https://github.coecis.cornell.edu/info2300-sp2019/info2300-sp2019-website/blob/master/assignments/project-3/project-3.md) ([PDF](https://github.coecis.cornell.edu/info2300-sp2019/info2300-sp2019-website/blob/master/assignments/project-3/project-3.pdf)).
+This website was created in the course INFO 2300: Intermediate Design and Programming for the Web. The site is aimed to provide busy college students with realistic healthy and easy recipes that they are able to make even with their busy schedules.
 
-# Submission Instructions
+The website showcases a sticky, validated form, as well as a dynamic filterable photo gallery page where users can add tags to existing images. In addition, logged in users are able to upload images as well as edit tags to their own images.
 
-See the respective **submit-_milestone_.md** file for each submission.
-
-| Submission  | Instructions                       |
-| ----------- | ---------------------------------- |
-| Milestone 1 | [submit-m1.md](submit-m1.md)       |
-| Milestone 2 | [submit-m2.md](submit-m2.md)       |
-| Final       | [submit-FINAL.md](submit-FINAL.md) |
+View the website here: https://healthy-and-easy-recipes.herokuapp.com/index.php
